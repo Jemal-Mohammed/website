@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SignatureController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,3 +43,10 @@ Route::get('/send', function () {
     ]);
     return $response;
 });
+// routes/web.php
+Route::get('/signature', function () {
+    return view('signature');
+});
+
+Route::post('/save-signature', [SignatureController::class, 'saveSignature']); // routes/web.php
+Route::get('/signatures', [SignatureController::class, 'index']);
