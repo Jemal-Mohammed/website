@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>signature</title>
 </head>
@@ -31,10 +33,15 @@
             document.getElementById('saveSignature').addEventListener('click', () => {
                 const signatureData = signaturePad.toDataURL();
 
-                // You can send signatureData to Laravel backend for saving
-                // Example using Axios or Fetch API
+                // Include CSRF token in the headers
+                const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+
                 axios.post('/save-signature', {
                         signatureData
+                    }, {
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        }
                     })
                     .then(response => {
                         console.log(response.data);
@@ -43,6 +50,7 @@
                         console.error(error);
                     });
             });
+
         });
     </script>
 </body>
